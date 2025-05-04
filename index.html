@@ -1,144 +1,198 @@
 <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
 
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
 
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
             }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
         }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+    }
+    return gk_fileData[filename] || "";
+    }
+    </script><!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SteelFix Construction</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        .hero-bg {
-            background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB and emma.n pty.ltd</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    .hero-bg {
+        background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
 </head>
 <body class="font-sans">
-    <!-- Hero Section -->
-    <section class="hero-bg h-screen flex items-center justify-center text-white">
-        <div class="text-center bg-black bg-opacity-50 p-8 rounded-lg">
-            <h1 class="text-5xl font-bold mb-4">SteelFix Construction</h1>
-            <ul class="text-xl space-y-2">
-                <li>Expert Steel Fixing Solutions</li>
-                <li>High-Quality Construction Services</li>
-                <li>Reliable and Timely Delivery</li>
-                <li>Trusted by Industry Leaders</li>
-            </ul>
-            <a href="#contact" class="mt-6 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Get in Touch</a>
-        </div>
-    </section>
+<!-- Hero Section -->
+<section class="hero-bg h-screen flex items-center justify-center text-white">
+    <div class="text-center bg-black bg-opacity-50 p-8 rounded-lg">
+        <h1 class="text-5xl font-bold mb-4">BB and Emma.n PTY.LTD</h1>
+        <ul class="text-2xl space-y-2">
+            <li>CIVIL WORKS</li>
+            <li>PRECAST WORKS</li>
+            <li>REINFORCEMENT</li>
+            <li>FORMWORK</li>
+            <li>LABOUR</li>
+        </ul>
+        <a href="#contact" class="mt-6 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Get in Touch</a>
+    </div>
+</section>
 
-    <!-- About Us Section -->
-    <section id="about" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">About Us</h2>
-            <p class="text-lg text-gray-700 max-w-3xl mx-auto">
-                SteelFix Construction specializes in steel fixing and reinforcement solutions for commercial and residential projects. With over 20 years of experience, our skilled team delivers precision, safety, and quality in every project. We pride ourselves on our commitment to excellence and client satisfaction.
-            </p>
-        </div>
-    </section>
+<!-- About Us Section -->
+<section id="about" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-8">About Us</h2>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+            Welcome to BB &amp; Emma.N Civils!
+With 8 years of dedicated experience, we specialize in steel
+reinforcement, precast panels, and formwork. Our expertise spans
+various infrastructure projects, including high-rises, highways, bridges,
+columns, beams, slabs, and labour provision. We pride ourselves on
+delivering top-quality work on time and within budget.
+Our civil teams are dynamic, skilled and have excellent experience in the
+trades we service. We take pride in delivering successful projects on time,
+within budget and to the highest quality standards. We have a large team
+and human resource that ensures capacity for and continuity of all
+projects, from small to large.
 
-    <!-- Our Vision Section -->
-    <section id="vision" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Our Vision</h2>
-            <p class="text-lg text-gray-700 max-w-3xl mx-auto">
-                To be the leading steel fixing company, recognized for innovative solutions, sustainable practices, and unmatched reliability. We aim to shape the future of construction by delivering projects that stand the test of time.
-            </p>
-        </div>
-    </section>
+A company-wide training regime not only ensures quality at all levels, but
+effectively up-skills and uplifts our workers and the community we work
+with. Our clients include governments local authorities corporate groups
+and property developers.
+        </p>
+    </div>
+</section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Our Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 1" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold">City Tower Reinforcement</h3>
-                        <p class="text-gray-600">Provided steel fixing for a 40-story commercial tower, completed on time with zero safety incidents.</p>
-                    </div>
+<!-- Clients Section -->
+<section id="projects" class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-8">Our Clients</h2>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="talco.png" alt="Project 1" class="w-15 h-30 object-cover">
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="hansen.png" alt="Project 2" class="w-full h-30 object-cover">
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="diamond.png" alt="Project 3" class="w-full h-30 object-cover">
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="inv.png" alt="Project 3" class="w-full h-30 object-cover">
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="new.png" alt="Project 3" class="w-full h-30 object-cover">
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="auc.png" alt="Project 3" class="w-full h-30 object-cover">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Vision Section -->
+<section id="vision" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-8">Our Vision</h2>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+            We aim to partner with industry leaders and
+expand civil developments in Perth with
+integrity and high standards.
+
+Our goal is to be the preferred partner in the
+construction sector, known for quality, value,
+and integrated solutions.
+
+BB &amp; Emma.N Civils strives to create a
+desirable place of work within a safe working
+environment.
+        </p>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-8">Our Projects</h2>
+        <h2 class="text-2xl  text-center mb-8">We have operated in plenty of precast all over Australia. </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="precast.png" alt="Project 1" class="w-full h-60 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Diamond</h3>
+                    <p class="text-gray-600">Our team takes pride in making the forms and steel reinforcement with integrity and with a clean flush look.</p>
                 </div>
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 2" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold">Residential Complex</h3>
-                        <p class="text-gray-600">Delivered reinforcement solutions for a 200-unit residential project, ensuring structural integrity.</p>
-                    </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="wall.png" alt="Project 2" class="w-full h-60 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Hanssen and Action Solution</h3>
+                    <p class="text-gray-600">We specialize in all types of civil steel reinforcement; on any job we are confident in our ability to deliver works on time and to specification.</p>
                 </div>
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 3" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold">Bridge Construction</h3>
-                        <p class="text-gray-600">Supplied steel fixing for a major infrastructure bridge, meeting strict regulatory standards.</p>
-                    </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="bosoo.png" alt="Project 3" class="w-full h-60 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">DI PRECAST LOGISTICS</h3>
+                    <p class="text-gray-600">Our dedication to client satisfaction ensures your project is completed, on time, on budget and in full compliance as can be seen from our client list and their repeated business over the years.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Contact Us</h2>
-            <div class="max-w-lg mx-auto">
-                <p class="text-lg text-gray-700 mb-4">Ready to start your next project? Reach out to us!</p>
-                <p class="text-lg text-gray-700 mb-4"><strong>Email:</strong> info@steelfixconstruction.com</p>
-                <p class="text-lg text-gray-700 mb-4"><strong>Phone:</strong> +1 (555) 123-4567</p>
-                <p class="text-lg text-gray-700 mb-4"><strong>Address:</strong> 123 Construction Way, Build City, BC 12345</p>
-                <div class="mt-6">
-                    <a href="mailto:info@steelfixconstruction.com" class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Send Email</a>
-                </div>
+<!-- Contact Section -->
+<section id="contact" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-8">Contact Us</h2>
+        <div class="max-w-lg mx-auto">
+            <p class="text-lg text-gray-700 mb-4">Ready to start your next project? Reach out to us!</p>
+            <p class="text-lg text-gray-700 mb-4"><strong>Email:</strong> bb.precastindustry@gmail.com</p>
+            <p class="text-lg text-gray-700 mb-4"><strong>Phone:</strong> 0414149188, 0413176618</p>
+            <p class="text-lg text-gray-700 mb-4"><strong>Address:</strong> 14/45-47 Stuart St Perth, WA6000</p>
+            <div class="mt-6">
+                <a href="mailto:bb.precastindustry@gmail.com" class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Send Email</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2025 SteelFix Construction. All rights reserved.</p>
-        </div>
-    </footer>
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2025 BB and Emma.n PTY.LTD. All rights reserved.</p>
+    </div>
+</footer>
 </body>
 </html>
